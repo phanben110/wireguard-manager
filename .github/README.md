@@ -277,8 +277,8 @@ Give a ⭐️ and 🍴 if this project helped you!
 	</a>
 </p>
 
-- Monero : `86uFC3LEfQi73rCS2tq6N2YKckbcyvKMCiJKSXEcLyYVW19nHiL9ec2FfaY3iAQEwhSxC7mTEGiFaVbHywirDi4rJjtczfH`
-- Ethereum : ``
+- Ethereum : `0xd3c5449C298433cEd4aC0E57D1F750d89A3FECC7`
+- USD Coin : `0xF1f09037b85766F014DF2D028f76Cce47541Fb53`
 
 ---
 ### ❤️ Credits
