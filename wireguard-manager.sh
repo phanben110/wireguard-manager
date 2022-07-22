@@ -1432,7 +1432,11 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -d "${WIREGUARD_PATH}" ]; then
         rm --recursive --force ${WIREGUARD_PATH}
       fi
-      unzip -P "$(cat "${WIREGUARD_BACKUP_PASSWORD_PATH}")" "${WIREGUARD_CONFIG_BACKUP}" -d "${WIREGUARD_PATH}"
+      if [ -f "${WIREGUARD_BACKUP_PASSWORD_PATH}" ]; then
+        unzip -P "$(cat "${WIREGUARD_BACKUP_PASSWORD_PATH}")" "${WIREGUARD_CONFIG_BACKUP}" -d "${WIREGUARD_PATH}"
+      else
+        unzip ${WIREGUARD_CONFIG_BACKUP} -d ${WIREGUARD_PATH}
+      fi
       # Restart WireGuard
       if [[ "${CURRENT_INIT_SYSTEM}" == *"systemd"* ]]; then
         systemctl enable --now wg-quick@${WIREGUARD_PUB_NIC}
