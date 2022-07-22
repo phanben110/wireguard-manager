@@ -1419,12 +1419,12 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -f "${WIREGUARD_CONFIG_BACKUP}" ]; then
         rm --force ${WIREGUARD_CONFIG_BACKUP}
       fi
+      if [ ! -d "${SYSTEM_BACKUP_PATH}" ]; then
+        mkdir --parents ${SYSTEM_BACKUP_PATH}
+      fi
       if [ -d "${WIREGUARD_PATH}" ]; then
         BACKUP_PASSWORD="$(openssl rand -hex 50)"
         echo "${BACKUP_PASSWORD}" >"${WIREGUARD_BACKUP_PASSWORD_PATH}"
-        if [ ! -d "${SYSTEM_BACKUP_PATH}" ]; then
-          mkdir ${SYSTEM_BACKUP_PATH}
-        fi
         zip -P "${BACKUP_PASSWORD}" -rj ${WIREGUARD_CONFIG_BACKUP} ${WIREGUARD_CONFIG}
       fi
       ;;
