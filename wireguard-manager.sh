@@ -1429,6 +1429,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       fi
       ;;
     11) # Restore WireGuard Config
+      if [ -f "${WIREGUARD_BACKUP_PASSWORD_PATH}" ]; then
       read -rp "Backup Password: " -e -i "$(cat "${WIREGUARD_BACKUP_PASSWORD_PATH}")" WIREGUARD_BACKUP_PASSWORD
       if [ -z "${WIREGUARD_BACKUP_PASSWORD}" ]; then
         exit
@@ -1442,6 +1443,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         systemctl enable --now wg-quick@${WIREGUARD_PUB_NIC}
       elif [[ "${CURRENT_INIT_SYSTEM}" == *"init"* ]]; then
         service wg-quick@${WIREGUARD_PUB_NIC} restart
+      fi
       fi
       ;;
     12) # Change the IP address of your wireguard interface.
