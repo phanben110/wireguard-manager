@@ -1436,7 +1436,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -z "${WIREGUARD_BACKUP_PASSWORD}" ]; then
         exit
       fi
-      unzip -P "${WIREGUARD_BACKUP_PASSWORD}" "${WIREGUARD_CONFIG_BACKUP}" -d "${WIREGUARD_PATH}"
+      unzip -o -P "${WIREGUARD_BACKUP_PASSWORD}" "${WIREGUARD_CONFIG_BACKUP}" -d "${WIREGUARD_PATH}"
       # Restart WireGuard
       if [[ "${CURRENT_INIT_SYSTEM}" == *"systemd"* ]]; then
         systemctl enable --now wg-quick@${WIREGUARD_PUB_NIC}
