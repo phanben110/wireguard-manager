@@ -1419,6 +1419,9 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -f "${WIREGUARD_CONFIG_BACKUP}" ]; then
         rm --force ${WIREGUARD_CONFIG_BACKUP}
       fi
+      if [ ! -d "${SYSTEM_BACKUP_PATH}" ]; then
+        mkdir --parents ${SYSTEM_BACKUP_PATH}
+      fi
       if [ -d "${WIREGUARD_PATH}" ]; then
         BACKUP_PASSWORD="$(openssl rand -hex 50)"
         echo "${BACKUP_PASSWORD}" >"${WIREGUARD_BACKUP_PASSWORD_PATH}"
@@ -1426,10 +1429,14 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       fi
       ;;
     11) # Restore WireGuard Config
+      read -rp "Backup Password: " -e -i "$(cat "${WIREGUARD_BACKUP_PASSWORD_PATH}")" WIREGUARD_BACKUP_PASSWORD
+      if [ -z "${WIREGUARD_BACKUP_PASSWORD}" ]; then
+        exit
+      fi
       if [ -d "${WIREGUARD_PATH}" ]; then
         rm --recursive --force ${WIREGUARD_PATH}
       fi
-      unzip ${WIREGUARD_CONFIG_BACKUP} -d ${WIREGUARD_PATH}
+      unzip -P "${WIREGUARD_BACKUP_PASSWORD}" "${WIREGUARD_CONFIG_BACKUP}" -d "${WIREGUARD_PATH}"
       # Restart WireGuard
       if [[ "${CURRENT_INIT_SYSTEM}" == *"systemd"* ]]; then
         systemctl enable --now wg-quick@${WIREGUARD_PUB_NIC}
