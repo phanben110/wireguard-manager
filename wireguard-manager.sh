@@ -986,7 +986,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
         fi
         curl "${UNBOUND_CONFIG_HOST_URL}" | awk '{print "local-zone: \""$1"\" always_refuse"}' >${UNBOUND_CONFIG_HOST}
       fi
-      chown --recursive ${USER}:${USER} ${UNBOUND_ROOT}
+      chown --recursive "${USER}":"${USER}" ${UNBOUND_ROOT}
       if [ -f "${RESOLV_CONFIG_OLD}" ]; then
         rm --force ${RESOLV_CONFIG_OLD}
       fi
@@ -1054,7 +1054,7 @@ PersistentKeepalive = ${NAT_CHOICE}
 PresharedKey = ${PRESHARED_KEY}
 PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${CLIENT_NAME}"-${WIREGUARD_PUB_NIC}.conf
     chown --recursive root:root ${WIREGUARD_PATH}
-    if [ ${AUTOMATIC_WIREGUARD_EXPIRATION} == true ]; then
+    if [ "${AUTOMATIC_WIREGUARD_EXPIRATION}" == true ]; then
       crontab -l | {
         cat
         echo "$(date +%M) $(date +%H) $(date +%d) $(date +%m) * echo -e \"${CLIENT_NAME}\" | ${CURRENT_FILE_PATH} --remove"
@@ -1386,23 +1386,23 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       ;;
     9) # Update the script
       CURRENT_WIREGUARD_MANAGER_HASH=$(openssl dgst -sha3-512 "${CURRENT_FILE_PATH}" | cut --delimiter=" " --fields=2)
-      NEW_WIREGUARD_MANAGER_HASH=$(curl --silent ${WIREGUARD_MANAGER_UPDATE} | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
+      NEW_WIREGUARD_MANAGER_HASH=$(curl --silent "${WIREGUARD_MANAGER_UPDATE}" | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
       if [ "${CURRENT_WIREGUARD_MANAGER_HASH}" != "${NEW_WIREGUARD_MANAGER_HASH}" ]; then
-        curl ${WIREGUARD_MANAGER_UPDATE} -o "${CURRENT_FILE_PATH}"
+        curl "${WIREGUARD_MANAGER_UPDATE}" -o "${CURRENT_FILE_PATH}"
         chmod +x "${CURRENT_FILE_PATH}"
       fi
       # Update the unbound configs
       if [ -x "$(command -v unbound)" ]; then
         if [ -f "${UNBOUND_ROOT_HINTS}" ]; then
           CURRENT_ROOT_HINTS_HASH=$(openssl dgst -sha3-512 "${UNBOUND_ROOT_HINTS}" | cut --delimiter=" " --fields=2)
-          NEW_ROOT_HINTS_HASH=$(curl --silent ${UNBOUND_ROOT_SERVER_CONFIG_URL} | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
+          NEW_ROOT_HINTS_HASH=$(curl --silent "${UNBOUND_ROOT_SERVER_CONFIG_URL}" | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
           if [ "${CURRENT_ROOT_HINTS_HASH}" != "${NEW_ROOT_HINTS_HASH}" ]; then
-            curl ${UNBOUND_ROOT_SERVER_CONFIG_URL} -o ${UNBOUND_ROOT_HINTS}
+            curl "${UNBOUND_ROOT_SERVER_CONFIG_URL}" -o ${UNBOUND_ROOT_HINTS}
           fi
         fi
         if [ -f "${UNBOUND_CONFIG_HOST}" ]; then
           CURRENT_UNBOUND_HOSTS_HASH=$(openssl dgst -sha3-512 "${UNBOUND_CONFIG_HOST}" | cut --delimiter=" " --fields=2)
-          NEW_UNBOUND_HOSTS_HASH=$(curl --silent ${UNBOUND_CONFIG_HOST_URL} | awk '{print "local-zone: \""$1"\" always_refuse"}' | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
+          NEW_UNBOUND_HOSTS_HASH=$(curl --silent "${UNBOUND_CONFIG_HOST_URL}" | awk '{print "local-zone: \""$1"\" always_refuse"}' | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2)
           if [ "${CURRENT_UNBOUND_HOSTS_HASH}" != "${NEW_UNBOUND_HOSTS_HASH}" ]; then
             curl "${UNBOUND_CONFIG_HOST_URL}" | awk '{print "local-zone: \""$1"\" always_refuse"}' >${UNBOUND_CONFIG_HOST}
           fi
