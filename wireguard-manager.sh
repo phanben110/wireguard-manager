@@ -986,7 +986,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
         fi
         curl "${UNBOUND_CONFIG_HOST_URL}" | awk '{print "local-zone: \""$1"\" always_refuse"}' >${UNBOUND_CONFIG_HOST}
       fi
-      chown --recursive root:root ${UNBOUND_ROOT}
+      chown --recursive ${USER}:${USER} ${UNBOUND_ROOT}
       if [ -f "${RESOLV_CONFIG_OLD}" ]; then
         rm --force ${RESOLV_CONFIG_OLD}
       fi
