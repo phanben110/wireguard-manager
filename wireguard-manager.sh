@@ -1474,7 +1474,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
     14) # All wireguard peers should be removed from your interface
       COMPLETE_CLIENT_LIST=$(grep start ${WIREGUARD_CONFIG} | cut --delimiter=" " --fields=2)
       for CLIENT_LIST_ARRAY in ${COMPLETE_CLIENT_LIST}; do
-        USER_LIST[${ADD_CONTENT}]=${CLIENT_LIST_ARRAY}
+        USER_LIST[ADD_CONTENT]=${CLIENT_LIST_ARRAY}
         ADD_CONTENT=$(("${ADD_CONTENT}" + 1))
       done
       for CLIENT_NAME in "${USER_LIST[@]}"; do
