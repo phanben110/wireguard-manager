@@ -301,6 +301,4 @@ Open Source Community
 
 ---
 ### 📝 License
-Copyright © 2020 [Prajwal](https://github.com/prajwal-koirala)
-
 [Apache License Version 2.0](https://raw.githubusercontent.com/complexorganizations/wireguard-manager/main/.github/LICENSE)
