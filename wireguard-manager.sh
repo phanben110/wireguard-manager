@@ -494,7 +494,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
     echo "  1) 25 (Default)"
     echo "  2) Custom (Advanced)"
     until [[ "${NAT_CHOICE_SETTINGS}" =~ ^[1-2]$ ]]; do
-      read -rp "Nat Choice [1-2]:" -e -i 1 NAT_CHOICE_SETTINGS
+      read -rp "Keepalive Choice [1-2]:" -e -i 1 NAT_CHOICE_SETTINGS
     done
     case ${NAT_CHOICE_SETTINGS} in
     1)
