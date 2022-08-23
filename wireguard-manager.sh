@@ -943,7 +943,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
       curl "${UNBOUND_ROOT_SERVER_CONFIG_URL}" --create-dirs -o ${UNBOUND_ROOT_HINTS}
       UNBOUND_TEMP_INTERFACE_INFO="server:
 \tnum-threads: $(nproc)
-\tverbosity: 1
+\tverbosity: 0
 \troot-hints: ${UNBOUND_ROOT_HINTS}
 \tauto-trust-anchor-file: ${UNBOUND_ANCHOR}
 \tinterface: 0.0.0.0
