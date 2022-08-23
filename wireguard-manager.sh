@@ -1275,7 +1275,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if { [ "${CURRENT_DISTRO}" == "ubuntu" ] || [ "${CURRENT_DISTRO}" == "debian" ] || [ "${CURRENT_DISTRO}" == "raspbian" ] || [ "${CURRENT_DISTRO}" == "pop" ] || [ "${CURRENT_DISTRO}" == "kali" ] || [ "${CURRENT_DISTRO}" == "linuxmint" ] || [ "${CURRENT_DISTRO}" == "neon" ]; }; then
         dpkg-reconfigure wireguard-dkms
         modprobe wireguard
-      elif { [ "${CURRENT_DISTRO}" == "fedora" ] || [ "${CURRENT_DISTRO}" == "centos" ] || [ "${CURRENT_DISTRO}" == "rhel" ] || [ "${CURRENT_DISTRO}" == "almalinux" ] || [ "${CURRENT_DISTRO}" == "rocky" ]; }; then
+      elif { [ "${CURRENT_DISTRO}" == "fedora" ] || [ "${CURRENT_DISTRO}" == "centos" ] || [ "${CURRENT_DISTRO}" == "rhel" ] || [ "${CURRENT_DISTRO}" == "almalinux" ] || [ "${CURRENT_DISTRO}" == "rocky" ] || [ "${CURRENT_DISTRO}" == "ol" ] || [ "${CURRENT_DISTRO}" == "amzn" ]; }; then
         yum reinstall wireguard-tools -y
       elif { [ "${CURRENT_DISTRO}" == "arch" ] || [ "${CURRENT_DISTRO}" == "archarm" ] || [ "${CURRENT_DISTRO}" == "manjaro" ]; }; then
         pacman -S --noconfirm wireguard-tools
@@ -1283,8 +1283,6 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         apk fix wireguard-tools
       elif [ "${CURRENT_DISTRO}" == "freebsd" ]; then
         pkg check wireguard
-      elif [ "${CURRENT_DISTRO}" == "ol" ]; then
-        yum reinstall wireguard-tools -y
       fi
       if [[ "${CURRENT_INIT_SYSTEM}" == *"systemd"* ]]; then
         systemctl enable --now wg-quick@${WIREGUARD_PUB_NIC}
@@ -1319,7 +1317,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         if [ -f "/etc/yum.repos.d/wireguard.repo" ]; then
           rm --force /etc/yum.repos.d/wireguard.repo
         fi
-      elif [ "${CURRENT_DISTRO}" == "rhel" ]; then
+      elif { [ "${CURRENT_DISTRO}" == "rhel" ] || [ "${CURRENT_DISTRO}" == "ol" ] || [ "${CURRENT_DISTRO}" == "amzn" ]; }; then
         yum remove wireguard qrencode -y
         if [ -f "/etc/yum.repos.d/wireguard.repo" ]; then
           rm --force /etc/yum.repos.d/wireguard.repo
@@ -1328,8 +1326,6 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         apk del wireguard-tools libqrencode
       elif [ "${CURRENT_DISTRO}" == "freebsd" ]; then
         pkg delete wireguard libqrencode
-      elif [ "${CURRENT_DISTRO}" == "ol" ]; then
-        yum remove wireguard qrencode -y
       fi
       # Delete WireGuard backup
       if [ -f "${WIREGUARD_CONFIG_BACKUP}" ]; then
@@ -1364,7 +1360,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
           apt-get remove --purge unbound -y
         elif { [ "${CURRENT_DISTRO}" == "arch" ] || [ "${CURRENT_DISTRO}" == "archarm" ] || [ "${CURRENT_DISTRO}" == "manjaro" ]; }; then
           pacman -Rs --noconfirm unbound
-        elif { [ "${CURRENT_DISTRO}" == "fedora" ] || [ "${CURRENT_DISTRO}" == "ol" ]; }; then
+        elif { [ "${CURRENT_DISTRO}" == "fedora" ] || [ "${CURRENT_DISTRO}" == "ol" ] || [ "${CURRENT_DISTRO}" == "amzn" ]; }; then
           yum remove unbound -y
         elif [ "${CURRENT_DISTRO}" == "alpine" ]; then
           apk del unbound
