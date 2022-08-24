@@ -1499,12 +1499,6 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       fi
       ;;
     16)
-      if [ -f "${RESOLV_CONFIG}" ]; then
-        curl 
-      fi
-      if [ "$(unbound-checkconf ${UNBOUND_CONFIG})" != *"no errors"* ]; then
-        # Check if the wireguard config is good.
-      fi
       if [ -x "$(command -v unbound)" ]; then
         if [ "$(unbound-checkconf ${UNBOUND_CONFIG})" != *"no errors"* ]; then
           echo "We found an error on your unbound config file located at ${UNBOUND_CONFIG}"
