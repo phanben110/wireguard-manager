@@ -494,7 +494,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
     echo "  1) 25 (Default)"
     echo "  2) Custom (Advanced)"
     until [[ "${NAT_CHOICE_SETTINGS}" =~ ^[1-2]$ ]]; do
-      read -rp "Nat Choice [1-2]:" -e -i 1 NAT_CHOICE_SETTINGS
+      read -rp "Keepalive Choice [1-2]:" -e -i 1 NAT_CHOICE_SETTINGS
     done
     case ${NAT_CHOICE_SETTINGS} in
     1)
@@ -940,7 +940,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
       curl "${UNBOUND_ROOT_SERVER_CONFIG_URL}" --create-dirs -o ${UNBOUND_ROOT_HINTS}
       UNBOUND_TEMP_INTERFACE_INFO="server:
 \tnum-threads: $(nproc)
-\tverbosity: 1
+\tverbosity: 0
 \troot-hints: ${UNBOUND_ROOT_HINTS}
 \tauto-trust-anchor-file: ${UNBOUND_ANCHOR}
 \tinterface: 0.0.0.0
