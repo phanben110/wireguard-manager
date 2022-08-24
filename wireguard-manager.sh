@@ -973,8 +973,8 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
 \tharden-dnssec-stripped: yes
 \tharden-referral-path: yes
 \tunwanted-reply-threshold: 10000000
-\tcache-min-ttl: 1800
-\tcache-max-ttl: 14400
+\tcache-min-ttl: 86400
+\tcache-max-ttl: 2592000
 \tprefetch: yes
 \tqname-minimisation: yes
 \tprefetch-key: yes"
