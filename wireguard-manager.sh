@@ -1505,6 +1505,16 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -f "${WIREGUARD_CONFIG}" ]; then
         # Check if the wireguard config is good.
       fi
+      if [ -x "$(command -v unbound)" ]; then
+        if [ "$(unbound-checkconf ${UNBOUND_CONFIG})" != *"no errors"* ]; then
+          echo "We found an error on your unbound config file located at ${UNBOUND_CONFIG}"
+          exit
+        fi
+        if [ "$(unbound-checkconf ${UNBOUND_CONFIG_HOST})" != *"no errors"* ]; then
+          echo "We found an error on your unbound config file located at ${UNBOUND_CONFIG_HOST}"
+          exit
+        fi
+      fi
       ;;
     esac
   }
