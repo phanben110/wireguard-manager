@@ -1505,6 +1505,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -f "${WIREGUARD_CONFIG}" ]; then
         # Check if the wireguard config is good.
       fi
+      ;;
     esac
   }
 
