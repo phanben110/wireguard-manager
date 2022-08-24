@@ -917,7 +917,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
     if [ "${INSTALL_UNBOUND}" == true ]; then
       if [ ! -x "$(command -v unbound)" ]; then
         if { [ "${CURRENT_DISTRO}" == "debian" ] || [ "${CURRENT_DISTRO}" == "ubuntu" ] || [ "${CURRENT_DISTRO}" == "raspbian" ] || [ "${CURRENT_DISTRO}" == "pop" ] || [ "${CURRENT_DISTRO}" == "kali" ] || [ "${CURRENT_DISTRO}" == "linuxmint" ] || [ "${CURRENT_DISTRO}" == "neon" ]; }; then
-          apt-get install unbound -y
+          apt-get install unbound unbound-host unbound-anchor -y
           if [ "${CURRENT_DISTRO}" == "ubuntu" ]; then
             if [[ "${CURRENT_INIT_SYSTEM}" == *"systemd"* ]]; then
               systemctl disable --now systemd-resolved
@@ -926,17 +926,17 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
             fi
           fi
         elif { [ "${CURRENT_DISTRO}" == "centos" ] || [ "${CURRENT_DISTRO}" == "rhel" ] || [ "${CURRENT_DISTRO}" == "almalinux" ] || [ "${CURRENT_DISTRO}" == "rocky" ]; }; then
-          yum install unbound -y
+          yum install unbound unbound-host unbound-anchor -y
         elif [ "${CURRENT_DISTRO}" == "fedora" ]; then
-          dnf install unbound -y
+          dnf install unbound unbound-host unbound-anchor -y
         elif { [ "${CURRENT_DISTRO}" == "arch" ] || [ "${CURRENT_DISTRO}" == "archarm" ] || [ "${CURRENT_DISTRO}" == "manjaro" ]; }; then
-          pacman -S --noconfirm --needed unbound
+          pacman -S --noconfirm --needed unbound unbound-host unbound-anchor
         elif [ "${CURRENT_DISTRO}" == "alpine" ]; then
-          apk add unbound
+          apk add unbound unbound-host unbound-anchor
         elif [ "${CURRENT_DISTRO}" == "freebsd" ]; then
-          pkg install unbound
+          pkg install unbound unbound-host unbound-anchor
         elif [ "${CURRENT_DISTRO}" == "ol" ]; then
-          yum install unbound -y
+          yum install unbound unbound-host unbound-anchor -y
         fi
       fi
       unbound-anchor -a ${UNBOUND_ANCHOR}
@@ -1502,7 +1502,7 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
       if [ -f "${RESOLV_CONFIG}" ]; then
         curl 
       fi
-      if [ -f "${WIREGUARD_CONFIG}" ]; then
+      if [ "$(unbound-checkconf ${UNBOUND_CONFIG})" != *"no errors"* ]; then
         # Check if the wireguard config is good.
       fi
       if [ -x "$(command -v unbound)" ]; then
@@ -1512,6 +1512,10 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         fi
         if [ "$(unbound-checkconf ${UNBOUND_CONFIG_HOST})" != *"no errors"* ]; then
           echo "We found an error on your unbound config file located at ${UNBOUND_CONFIG_HOST}"
+          exit
+        fi
+        if [ "$(unbound-host -C ${UNBOUND_CONFIG} -v api.ipengine.dev)" != *"secure"* ]; then
+          echo "We found an error on your unbound DNS-SEC config file loacted at ${UNBOUND_CONFIG}"
           exit
         fi
       fi
