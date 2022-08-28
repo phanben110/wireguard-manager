@@ -4,8 +4,14 @@
 	<a href="https://github.com/complexorganizations/wireguard-manager/releases">
 		<img alt="Release" src="https://img.shields.io/github/v/release/complexorganizations/wireguard-manager" target="_blank" />
 	</a>
-	<a href="https://github.com/complexorganizations/wireguard-manager/actions">
+	<a href="https://github.com/complexorganizations/wireguard-manager/actions/workflows/wireguard-manager.yml">
 		<img alt="ShellCheck" src="https://github.com/complexorganizations/wireguard-manager/workflows/ShellCheck/badge.svg" target="_blank" />
+	</a>
+	<a href="https://github.com/complexorganizations/wireguard-manager/actions/workflows/auto-build.yml">
+		<img alt="Auto-Build" src="https://github.com/complexorganizations/wireguard-manager/actions/workflows/auto-build.yml/badge.svg" target="_blank" />
+	</a>
+	<a href="https://github.com/complexorganizations/wireguard-manager/actions/workflows/auto-update-named-cache.yml">
+		<img alt="Auto-Update" src="https://github.com/complexorganizations/wireguard-manager/actions/workflows/auto-update-named-cache.yml/badge.svg" target="_blank" />
 	</a>
 	<a href="https://github.com/complexorganizations/wireguard-manager/issues">
 		<img alt="Issues" src="https://img.shields.io/github/issues/complexorganizations/wireguard-manager" target="_blank" />
