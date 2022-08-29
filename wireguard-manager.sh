@@ -966,15 +966,6 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
 \tprivate-address: ::ffff:0:0/96
 \tprivate-address: fd00::/8
 \tprivate-address: fe80::/10
-\tdo-not-query-address: 10.0.0.0/8
-\tdo-not-query-address: 127.0.0.0/8
-\tdo-not-query-address: 169.254.0.0/16
-\tdo-not-query-address: 172.16.0.0/12
-\tdo-not-query-address: 192.168.0.0/16
-\tdo-not-query-address: ::ffff:0:0/96
-\tdo-not-query-address: fd00::/8
-\tdo-not-query-address: fe80::/10
-\tdo-not-query-localhost: yes
 \tdo-ip4: yes
 \tdo-ip6: yes
 \tdo-udp: yes
