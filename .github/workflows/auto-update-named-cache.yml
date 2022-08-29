@@ -6,11 +6,18 @@ jobs:
   build:
     name: Update named.cache
     runs-on: ubuntu-latest
+    env:
+      NAMED_CACHE_URL: https://www.internic.net/domain/named.cache
+      NAMED_CACHE_PATH: assets/named.cache
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
+      - name: Get the curent SHA-3-512 hash of file.
+        run: echo "NAMED_CACHE_CURRENT_HASH=$(openssl dgst -sha3-512 "${{ env.NAMED_CACHE_PATH }}" | cut --delimiter=" " --fields=2)" >> $GITHUB_ENV
+      - name: Get the future SHA-3-512 hash of file.
+        run: echo NAMED_CACHE_FUTURE_HASH=$(curl --silent "${{ env.NAMED_CACHE_URL }}" | awk '{print "local-zone: \""$1"\" always_refuse"}' | openssl dgst -sha3-512 | cut --delimiter=" " --fields=2) >> $GITHUB_ENV
       - name: Update the named.cache
-        run: curl "https://www.internic.net/domain/named.cache" -o "assets/named.cache"
+        run: curl "${{ env.NAMED_CACHE_URL }}" -o "${{ env.NAMED_CACHE_PATH }}"
       - name: Push the named.cache to github
         run: |
           git config user.name github-actions
