@@ -948,6 +948,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
 \tauto-trust-anchor-file: ${UNBOUND_ANCHOR}
 \tinterface: 0.0.0.0
 \tinterface: ::0
+\tport: 53
 \tmax-udp-size: 3072
 \taccess-control: 0.0.0.0/0\trefuse
 \taccess-control: ::0\trefuse
@@ -965,7 +966,10 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
 \tprivate-address: ::ffff:0:0/96
 \tprivate-address: fd00::/8
 \tprivate-address: fe80::/10
-\tdo-tcp: no
+\tdo-ip4: yes
+\tdo-ip6: yes
+\tdo-udp: yes
+\tdo-tcp: yes
 \tchroot: \"\"
 \thide-identity: yes
 \thide-version: yes
